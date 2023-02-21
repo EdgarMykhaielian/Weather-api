@@ -1,9 +1,16 @@
 const apikey = '97436b7a7cd00fd666dc78d53977d438';
 const cityForm = document.getElementById('cityForm');
+const cityBox = document.getElementById('cityBox');
+const weatherContainer = document.getElementById('weather-container')
+const today = new Date().toLocaleDateString('ukr')
 
 cityForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    setLocation();
+    if (cityBox.validity.typeMismatch) {
+        cityBox.setCustomValidity("Please enter a valid city");
+    } else {
+        setLocation();
+    }
 });
 
 function setLocation() {
@@ -27,15 +34,39 @@ function loadForcast(data) {
         .then(data => showWeather(data))
 }
 
-function showWeather(data){
-    const weatherContainer = document.createElement('div');
+function showWeather(data) {
     weatherContainer.innerHTML = `
-    <p class="temperature">${Math.round(data.main.temp)}</p>
-    <div class="icon">
-    </div>
+        <div class="main-info">
+            <p class="city">${(cityBox.value).toUpperCase()}</p>
+            <p class="date">${today}</p>
+            <div class="wrapper">
+                <p class="temperature">${(Math.round(data.main.temp)) + '°'}</p>
+                <div class="icon">
+                    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
+                </div>
+            <p class="conditions">${data.weather[0].description}</p>
+            </div>
+        </div>
+        <div class="add-info">
+            <ul>
+                <li>Feels like</li>
+                <li>${(Math.round(data.main.feels_like)) + '°'}</li>
+            </ul>
+            <ul>
+                <li>Pressure</li>
+                <li>${(data.main.pressure + 'mm')}</li>
+            </ul>
+            <ul>
+                <li>Humidity</li>
+                <li>${(data.main.humidity + '%')}</li>
+            </ul>
+            <ul>
+                <li>Wind</li>
+                <li>${(data.wind.speed + 'm/s')}</li>
+            </ul>
+        </div>
     `
     console.log(data)
-    document.body.append(weatherContainer);
 }
 
 
