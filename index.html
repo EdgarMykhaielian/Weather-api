@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script defer src="script.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h2>WEATHER.<i>ed</i></h2>
+    </header>
+    <main>
+        <div class="_container">
+            <form id="cityForm">
+                <div class="wrapper">
+                    <input type="text" id="cityBox" placeholder="Enter your city">
+                    <button type="submit" id="submitBtn">Search</button>
+                </div>
+            </form>
+
+            <div class="weather-container">
+                <div class="main-info">
+                    <p class="city">Kyiv</p>
+                    <p class="date">21 February 2023</p>
+                    <div class="wrapper">
+                        <p class="temperature">+3</p>
+                        <div class="icon">
+                            <img src="/rainy.png" alt="" width="90px" height="90px">
+                        </div>
+                        <p class="conditions">Heavy rain</p>
+                    </div>
+                </div>
+                <div class="add-info">
+                    <ul>
+                        <li>Feels like</li>
+                        <li>+3</li>
+                    </ul>
+                    <ul>
+                        <li>Pressure</li>
+                        <li>+735 mm</li>
+                    </ul>
+                    <ul>
+                        <li>Humidity</li>
+                        <li>78%</li>
+                    </ul>
+                    <ul>
+                        <li>Wind</li>
+                        <li>5 m/s</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
