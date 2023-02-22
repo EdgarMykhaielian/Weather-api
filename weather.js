@@ -1,8 +1,10 @@
 const apikey = '97436b7a7cd00fd666dc78d53977d438';
 const cityForm = document.getElementById('cityForm');
 const cityBox = document.getElementById('cityBox');
-const weatherContainer = document.getElementById('weather-container')
-const today = new Date().toLocaleDateString('ukr')
+const weatherContainer = document.getElementById('weather-container');
+const today = new Date().toLocaleDateString('ukr');
+
+
 
 getLocation().then(({ lat, lon }) => Promise.all([
     getCityName(lat, lon),
@@ -26,7 +28,7 @@ function getLocation(city) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(({coords}) => {
                 resolve({ lat: coords.latitude, lon:coords.longitude })
-            });
+            })
         } else {
             reject()
         }
@@ -52,6 +54,7 @@ function getCityName(lat, lon) {
 
 function showWeather(data, city) {
     const regionNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'region' });
+    const preloader = document.getElementById('preloader')
     weatherContainer.innerHTML = `
             <div class="main-info">
             <p class="city">${((city)) + ', ' + (regionNamesInEnglish.of(data.sys.country))}</p>
@@ -83,4 +86,5 @@ function showWeather(data, city) {
                 </ul>
             </div>
         `
+    preloader.remove()
 }

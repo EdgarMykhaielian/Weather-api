@@ -1,4 +1,6 @@
 @use 'reset';
+@use 'preloader'; 
+@use 'adaptive';
 
 * {
     font-family: 'Montserrat', sans-serif;
@@ -65,6 +67,9 @@ header {
             &::placeholder {
                 color: lightgray;
             }
+            &:focus{
+                border: 1px solid white;
+            }
         }
 
         button {
@@ -79,6 +84,7 @@ header {
 
             &:hover {
                 background-color: aquamarine;
+                font-weight: 500;
             }
         }
     }

@@ -345,6 +345,73 @@ textarea {
           box-sizing: border-box;
 }
 
+.preloader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+          transform: translate(-50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+
+.loader::after,
+.loader::before {
+  content: "";
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #FFF;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-animation: animloader 2s linear infinite;
+          animation: animloader 2s linear infinite;
+}
+
+.loader::after {
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+
+@-webkit-keyframes animloader {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes animloader {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
 * {
   font-family: "Montserrat", sans-serif;
 }
@@ -427,6 +494,9 @@ header h2 i {
 ._container form input::placeholder {
   color: lightgray;
 }
+._container form input:focus {
+  border: 1px solid white;
+}
 ._container form button {
   padding: 5px 20px;
   width: 25%;
@@ -439,6 +509,7 @@ header h2 i {
 }
 ._container form button:hover {
   background-color: aquamarine;
+  font-weight: 500;
 }
 ._container .weather-container {
   display: -webkit-box;
