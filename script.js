@@ -28,16 +28,23 @@ function loadCoordinates(cityName) {
 function loadForcast(data) {
     let lat = data[0].lat;
     let lon = data[0].lon;
+    let state = data[0].state;
+    if (typeof state !== 'undefined') {
+        state = `${state}, `
+    }else{
+        state = ''
+    }
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`;
     fetch(url)
         .then(response => response.json())
-        .then(data => showWeather(data))
+        .then(data => showWeather(data,state))
 }
 
-function showWeather(data) {
+function showWeather(data,state) {
+    const regionNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'region' });
     weatherContainer.innerHTML = `
         <div class="main-info">
-            <p class="city">${(cityBox.value).toUpperCase()}</p>
+            <p class="city">${((cityBox.value).toUpperCase()) + ', '+ state + (regionNamesInEnglish.of(data.sys.country))}</p>
             <p class="date">${today}</p>
             <div class="wrapper">
                 <p class="temperature">${(Math.round(data.main.temp)) + '°'}</p>
