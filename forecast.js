@@ -5,10 +5,8 @@ const weatherContainer = document.getElementById("weather-container");
 const cache = [];
 
 getLocation()
-    .then(({ lat, lon }) =>
-        Promise.all([getCityName(lat, lon), getForcast(lat, lon)])
-    )
-    .then(([city, data]) => showWeather(data, city))
+    .then(({ lat, lon }) => getForcast(lat, lon))
+    .then((data) => showWeather(data))
     .catch(console.error);
 
 cityForm.addEventListener("submit", (e) => {
@@ -17,10 +15,8 @@ cityForm.addEventListener("submit", (e) => {
         cityBox.setCustomValidity("Please enter a valid city");
     } else {
         getLocation(cityBox.value.trim())
-            .then(({ lat, lon }) =>
-                Promise.all([getCityName(lat, lon), getForcast(lat, lon)])
-            )
-            .then(([city, data]) => showWeather(data, city))
+            .then(({ lat, lon }) => getForcast(lat, lon))
+            .then((data) => showWeather(data))
             .catch(console.error);
     }
 });
@@ -43,13 +39,6 @@ function getLocation(city) {
         .then(([{ lat, lon }]) => ({ lat, lon }));
 }
 
-function getCityName(lat, lon) {
-    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apikey}`;
-    return fetch(url)
-        .then((response) => response.json())
-        .then((data) => data[0].name);
-}
-
 function getForcast(lat, lon) {
     let latFixed = lat.toFixed(0);
     let lonFixed = lon.toFixed(0);
@@ -60,7 +49,6 @@ function getForcast(lat, lon) {
             data.coord.lon.toFixed(0) == lonFixed
     );
     if (matchCoords) {
-        // console.log(matchCoords);
         return matchCoords;
     } else {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`;
@@ -68,7 +56,7 @@ function getForcast(lat, lon) {
     }
 }
 
-function showWeather(data, city) {
+function showWeather(data) {
     const regionNamesInEnglish = new Intl.DisplayNames(["en"], {
         type: "region",
     });
@@ -77,7 +65,7 @@ function showWeather(data, city) {
     weatherContainer.innerHTML = `
             <div class="main-info">
             <p class="city">${
-                city + ", " + regionNamesInEnglish.of(data.sys.country)
+                data.name + ", " + regionNamesInEnglish.of(data.sys.country)
             }</p>
                 <p class="date">${today}</p>
                 <div class="wrapper">
@@ -115,15 +103,6 @@ function showWeather(data, city) {
     if (preloader) {
         preloader.remove();
     }
-    // data.dateInfo = new Date();
-    // data.expiry = data.dateInfo.getTime() + 60000;
-    // if (cache.length < 10) {
-    //     cache.push(data);
-    // }
-    // localStorage.setItem("cache", JSON.stringify(cache));
-    // // console.log(cache)
-
-    // clearLocalData()
     setExpiry(data);
 }
 
@@ -134,8 +113,6 @@ function setExpiry(data) {
         cache.push(data);
     }
     localStorage.setItem("cache", JSON.stringify(cache));
-    // console.log(cache)
-
     clearLocalData();
 }
 
